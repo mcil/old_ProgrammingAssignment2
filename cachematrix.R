@@ -6,7 +6,7 @@ createx <- function(number){
       createx <- matrix(rnorm(number*number),number,number)
       createx
 }
-# funtion for matrix equality test
+# funtion for matrix equality test adapted from a Google search
 # for TRUE both arguments must be a matrix, matrix must be same size and the elements must match
 ismatequal <- function(x, y){
       is.matrix(x) && is.matrix(y) && dim(x) == dim(y) && all(x == y) 
@@ -58,7 +58,7 @@ cacheSolve <- function (x, ...) {
       }
 
 test = function(mat){ # mat is the matrix dimension
-      # sample call:  test(500)
+      # sample call:  test(500) adapted from a Google search
       mat<-createx(mat)             # make random matxmat matrix 
       
       temp = makeCacheMatrix(mat)   # kick start the cache function
