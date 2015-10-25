@@ -1,3 +1,5 @@
+# This is r programming assignment 2
+
 # function to create a test square matrix where number is the dimension
 createx <- function(number){
       set.seed(1)
@@ -12,10 +14,10 @@ ismatequal <- function(x, y){
 # makeCacheMatrix: This function creates a special "matrix" object that can cache its inverse.
 makeCacheMatrix <- function(x = matrix()) {
       inv <- NULL
-      m <- NULL
-      setmatrix = function(y) { #set the value of the matrix
-            m <<- y ## caches the inputted matrix 
-            inv <<- NULL # # sets the value of the matrix inverse 
+      
+      setmatrix = function(y) {     # set the value of the matrix
+            m <<- y                 # caches the inputted matrix 
+            inv <<- NULL            # resets the value of the matrix inverse 
       }      
       getmatrix = function(){
              x
@@ -38,26 +40,29 @@ makeCacheMatrix <- function(x = matrix()) {
 # # makeCacheMatrix above. If the inverse has already been calculated (and the matrix has not
 # # changed), then the cachesolve should retrieve the inverse from the cache.
 cacheSolve <- function (x, ...) {
-      inv <- x$getinverse()    # get current value of inv
-      # if an inverse has already been calculated this gets it
-      if((!is.null(inv))) {
-            message("getting cached data")
-            return(inv) # and exit function
+      
+      inv <- x$getinverse()                     # get current value of inv
+      if((!is.null(inv))) {                     # if an inverse has already been calculated
+           if(ismatequal(m, x$getmatrix())) {   # and the matrix is the same
+                  message("getting cached data")
+                  return(inv)                   # use cache and exit function
+            }
       }
       # otherwise calculate a new inversion
-            y <- x$getmatrix() # run the getmatrix function to get the value of the input matrix
-            x$setmatrix(y) # run the setmatrix function on the input matrix to cache it
-            inv <- solve(y, ...) # compute the value of the inverse of the input matrix
-            x$setinverse(inv) # run the setinverse function on the inverse to cache the inverse
-            inv # return the inverse
+            message("getting new inv")
+            y <- x$getmatrix()      # get the value of the input matrix
+            x$setmatrix(y)          # cache it
+            inv <- solve(y, ...)    # compute inverse of the input matrix
+            x$setinverse(inv)       # cache the inverse
+            inv                     # return the inverse
       }
 
 test = function(mat){ # mat is the matrix dimension
-      ## make mat: an invertible matrix
-      mat<-createx(mat)
+      # sample call:  test(500)
+      mat<-createx(mat)             # make random matxmat matrix 
       
-      temp = makeCacheMatrix(mat)
-      
+      temp = makeCacheMatrix(mat)   # kick start the cache function
+
       start.time = Sys.time()
       cacheSolve(temp)
       dur = Sys.time() - start.time
